@@ -1,0 +1,21 @@
+{
+  "required": {
+    "private_key_path": "string",
+    "projects": "array"
+  },
+  "projects": {
+    "name": "string",
+    "local_dir": "string",
+    "config": "object"
+  },
+  "config": {
+    "environments": "array"
+  },
+  "environments": {
+    "name": "string",
+    "server_ip": "string",
+    "server_user": "string",
+    "db_connection_string": "string",
+    "dump_filename": "string"
+  }
+}

@@ -1,0 +1,20 @@
+{
+    "name": "momik/db-dumper",
+    "description": "Script to export a database and download it locally.",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "classes\\": "classes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "PG-Momik",
+            "email": "momik12339@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "phpseclib/phpseclib": "^3.0"
+    }
+}
