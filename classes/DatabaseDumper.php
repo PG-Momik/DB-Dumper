@@ -180,7 +180,9 @@ class DatabaseDumper
      */
     private function getEnvironmentDetails(): array
     {
-        return array_filter($this->projectConfig['environments'], fn ($environment) => $environment['name'] === $this->environmentName)[0];
+        $filtered = array_values(array_filter($this->projectConfig['environments'], fn ($environment) => $environment['name'] === $this->environmentName));
+
+        return $filtered[0];
     }
 }
 
