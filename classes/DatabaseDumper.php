@@ -40,7 +40,8 @@ class DatabaseDumper
             throw new Exception("Project not found: $projectName");
         }
 
-        return $filteredProjects[0]['config'];
+
+        return array_values($filteredProjects)[0]['config'];
     }
 
     /**
