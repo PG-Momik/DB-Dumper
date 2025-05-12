@@ -150,6 +150,9 @@ try {
     echo "Server response: " . $result['file_check_output'] . "\n";
     echo "Dump file: " . $result['export_filename'] . "\n";
 
+    $localDumpPath = rtrim(getenv('HOME'), '/') . '/Downloads/' . basename($result['export_filename']);
+
+    $dumper->downloadDumpFile($localDumpPath);
 } catch (Exception $e) {
     die("Error: " . $e->getMessage());
 }
