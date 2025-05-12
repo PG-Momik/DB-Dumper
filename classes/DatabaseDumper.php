@@ -8,6 +8,7 @@ use Exception;
 use phpseclib3\Crypt\Common\AsymmetricKey;
 use phpseclib3\Crypt\PublicKeyLoader;
 use phpseclib3\Net\SSH2;
+use phpseclib3\Net\SFTP;
 
 class DatabaseDumper
 {
@@ -162,7 +163,7 @@ class DatabaseDumper
             $ssh->disconnect();
             $ssh = $this->createSshConnection();
 
-            $fileCheckCommand = sprintf("[ -s '%s' ] && echo 'Dumped file exists.' || echo 'Dump file is empty'", $exportFilename);
+            $fileCheckCommand = sprintf("[ -s '%s' ] && echo 'Dumped Successfully.' || echo 'Dump file is empty'", $exportFilename);
             $fileCheckOutput = $ssh->exec($fileCheckCommand);
 
             return [
@@ -185,6 +186,39 @@ class DatabaseDumper
 
         return $filtered[0];
     }
+
+    /**
+     * @throws Exception
+     */
+    public function downloadDumpFile(string $localPath): bool
+    {
+        echo "Preparing to download file...\n";
+
+        $remoteFile = $this->getDumpFilename();
+        echo "Remote file path: $remoteFile\n";
+
+        $sftp = new SFTP($this->serverIp);
+        echo "Connecting to server: {$this->serverIp}\n";
+
+        if (!$sftp->login($this->serverUser, $this->privateKey)) {
+            echo "SFTP login failed for user {$this->serverUser}\n";
+            throw new Exception("SFTP login failed.");
+        }
+
+        echo "SFTP login successful. Starting file download...\n";
+
+        $success = $sftp->get($remoteFile, $localPath);
+
+        if (!$success) {
+            echo "Failed to get file from remote.\n";
+            throw new Exception("Failed to download dump file from remote server.");
+        }
+
+        echo "Dump file downloaded to: {$localPath}\n";
+
+        return true;
+    }
+
 }
 
 
